@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <algorithm>
 
@@ -15,7 +14,7 @@ int rec(int sum, const vector<int>& coins, vector<int>& memo, int INF)
     for (int coin : coins)
     {
         int cur = rec(sum - coin, coins, memo, INF);
-        best = min(best, cur + 1);
+        if (cur + 1 < best) best = cur + 1;
     }
 
     memo[sum] = best;
@@ -29,6 +28,7 @@ int coinChange(vector<int>& coins, int amount)
     if (coins.empty()) return -1;
 
     int INF = amount + 1;
+
     vector<int> memo(amount + 1, -1);
 
     int ans = rec(amount, coins, memo, INF);
@@ -37,10 +37,5 @@ int coinChange(vector<int>& coins, int amount)
 
 int main()
 {
-    vector<int> coins = {1, 2, 5, 10};
-    int amount = 27;
-
-    cout << coinChange(coins, amount) << "\n"; // ожидаемо: 4 (10+10+5+2)
-
     return 0;
 }
